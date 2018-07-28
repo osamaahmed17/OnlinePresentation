@@ -1,0 +1,36 @@
+{
+  "name": "ibm-nostro-vostro",
+  "description": "IBM cross-border payment using Hyperledger",
+  "main": "index.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "app-layout": "PolymerElements/app-layout#^0.9.1",
+    "app-route": "PolymerElements/app-route#^0.9.1",
+    "iron-pages": "PolymerElements/iron-pages#^1.0.7",
+    "paper-toast": "PolymerElements/paper-toast#^1.3.0",
+    "iron-icon": "^1.0.8",
+    "iron-iconset-svg": "^1.0.9",
+    "Chart.js": "^2.1.4",
+    "paper-tabs": "PolymerElements/paper-tabs#^1.6.2",
+    "scrollmagic": "^2.0.5",
+    "gsap": "^1.18.5",
+    "socket.io-client": "^1.4.6",
+    "moment": "^2.13.0",
+    "paper-dropdown-menu": "polymerelements/paper-dropdown-menu#^1.2.2",
+    "iron-dropdown": "polymerelements/iron-dropdown#^1.4.1",
+    "paper-item": "PolymerElements/paper-item#^1.2.1",
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.3",
+    "animate.css": "^3.5.2",
+    "waypoints": "^4.0.0",
+    "paper-progress": "PolymerElements/paper-progress#^1.0.9"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "resolutions": {
+    "polymer": "^1.4.0"
+  }
+}

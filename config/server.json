@@ -1,0 +1,7 @@
+{
+	"server": {
+		"name": "Hive-AI",
+		"port": 8080
+	},
+	"staticContentDir": "/ui"
+}

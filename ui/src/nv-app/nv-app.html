@@ -1,0 +1,101 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<link rel="import" href="../shared-styles/app-theme.html">
+<link rel="import" href="../home-page/home-page.html">
+<link rel="import" href="../demo-page/demo-page.html">
+
+<dom-module id="nv-app">
+
+	<template>
+
+		<style include="app-theme">
+			:host {
+				display: block;
+			}
+
+			iron-pages {
+				height:100%;
+			}
+		</style>
+
+		<app-location route="{{route}}" use-hash-as-path></app-location>
+		<app-route
+			route="{{route}}"
+			pattern="/:page"
+			data="{{routeData}}"
+			tail="{{subroute}}"></app-route>
+
+		<iron-pages selected={{page}} attr-for-selected="name">
+			<demo-page name="demo"></demo-page>
+		</iron-pages>
+
+		<paper-toast id="toastErr" class="error" text="Invalid page"></paper-toast>
+	</template>
+
+	<script>
+
+		Polymer({
+
+			is: 'nv-app',
+
+			properties: {
+
+				page: {
+					type: String,
+					reflectToAttribute: true,
+					observer: '_pageChanged'
+				},
+
+				// URLs for dynamically import page
+				pages: {
+					type: Object,
+					value: function() {
+						return {
+							'home': '../home-page/home-page.html',
+							'demo': '../demo-page/demo-page.html'
+						};
+					}
+				},
+
+				routeData: {
+					type: Object,
+					value: function() {
+						return {};
+					}
+				},
+
+				subroute: {
+					type: Object,
+					value: function() {
+						return {};
+					}
+				}
+			},
+
+			observers: [
+				'_routePageChanged(routeData.page)'
+			],
+
+			_routePageChanged: function(page) {
+				this.page = page || 'demo';
+			},
+
+			_pageChanged: function(page) {
+				var pageSrc = this.pages[page] || '';
+				// load page import on demand.
+				if (pageSrc) {
+					this.importHref(this.resolveUrl(pageSrc), null, null, true);
+				} else {
+					 this.$.toastErr.open();
+					 this.set('routeData.page', '');
+				}
+			}
+		});
+
+	</script>
+
+</dom-module>

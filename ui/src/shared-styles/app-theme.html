@@ -1,0 +1,29 @@
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+<dom-module id="app-theme">
+	<template>
+		<style include="iron-flex iron-flex-factors">
+			:host {
+				height:100%;
+			}
+
+			paper-dialog {
+				min-width: 55%;
+				padding:10px;
+			}
+
+			paper-dialog > paper-dialog-scrollable {
+				height:100%;
+			}
+
+			paper-dialog h2 {
+				text-align:center;
+			}
+
+			paper-toast.error {
+				 --paper-toast-background-color: #fadd60;
+				 --paper-toast-color: black;
+			}
+		</style>
+	</template>
+</dom-module>

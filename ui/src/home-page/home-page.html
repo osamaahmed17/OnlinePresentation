@@ -1,0 +1,637 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
+<script src="../../bower_components/gsap/src/minified/TweenMax.min.js"></script>
+<script src="../../bower_components/gsap/src/minified/plugins/ScrollToPlugin.min.js"></script>
+<script src="../../bower_components/scrollmagic/scrollmagic/uncompressed/ScrollMagic.js"></script>
+<script src="../../bower_components/scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js"></script>
+<script src="../../bower_components/scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js"></script>
+
+<dom-module id="home-page">
+	<template>
+		<style is="custom-style" include="iron-flex iron-flex-alignment">
+			:host {
+				--paper-tabs-selection-bar: {
+					color: #00afda;
+					box-shadow: 0 0 10px 1px #00afda;
+					width: 100%;
+				};
+
+				--paper-tabs-selection-bar-color: #00afda;
+
+				--paper-tab-ink: #00afda;
+
+				--paper-tab-content: {
+					padding: 0 20px;
+					width: 3rem;
+				};
+			}
+
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+
+			.heading {
+				position: absolute;
+				width: 100vw;
+				overflow: hidden;
+				pointer-events: none;
+			}
+
+			.heading-panel {
+				width: 100%;
+				pointer-events: all;
+			}
+
+			.heading-content {
+				position: absolute;
+				width: 100%;
+				/* background-color: yellow; */
+			}
+
+			.heading-panel.blue {
+				background: linear-gradient(#008fcc, #006b99)
+			}
+
+			.heading-panel.purple {
+				background: linear-gradient(#7a00cc, #590099)
+			}
+
+			.heading-panel.red {
+				background: linear-gradient(#cc0700, #990300)
+			}
+
+			.heading-panel.orange {
+				background: linear-gradient(#e67e00, #b35f00)
+			}
+
+			.heading-panel.yellow {
+				background: linear-gradient(#e6e600, #b3b300)
+			}
+
+			.left-pivot {
+				transform: skewY(15deg);
+				transform-origin: left center;
+			}
+
+			.right-pivot {
+				transform: skewY(-15deg);
+				transform-origin: right center;
+			}
+
+			section {
+				width: 100vw;
+				height: 100vh;
+				overflow: hidden;
+				background-color: #000000;
+			}
+
+			.bg1 {
+				background-image: url("http://app-layout-assets.appspot.com/assets/bg1.jpg");
+			}
+
+			.bg2 {
+				background-image: url("http://app-layout-assets.appspot.com/assets/bg2.jpg");
+			}
+
+			.bg3 {
+				background-image: url("http://app-layout-assets.appspot.com/assets/bg3.jpg");
+			}
+
+			.bg4 {
+				background-image: url("http://app-layout-assets.appspot.com/assets/bg4.jpg");
+			}
+
+			.bg5 {
+				background-image: url("http://app-layout-assets.appspot.com/assets/bg1.jpg");
+			}
+
+			.bg6 {
+				background-image: url("http://app-layout-assets.appspot.com/assets/bg2.jpg");
+			}
+
+			.img {
+				width: 100vw;
+				height: 100vh;
+				background-size: cover;
+				overflow: hidden;
+			}
+
+			.padding {
+				height: 120%
+			}
+
+			#header {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				z-index: 2;
+				height: 40px;
+				padding: 0 20px;
+				background-color: rgba(0, 0, 0, 0.7);
+			}
+
+			.think, .forum {
+				margin: 0;
+				padding: 0;
+				font-size: 1.5rem;
+				letter-spacing: 1px;
+			}
+
+			.think {
+				color: #ffffff;
+				font-weight: lighter;
+			}
+
+			.forum {
+				color: #00afda;
+				font-weight: bold;
+			}
+
+			a {
+				color: #00afda;
+				text-decoration: none;
+			}
+
+			paper-tabs {
+				height: 40px;
+			}
+
+			.title {
+				font-size: 200%;
+				width: 100%;
+				opacity: 0;
+			}
+
+			.demo {
+				margin-top: 40px; /* to leave room for the nav bar */
+				width: 80%;
+				height: 80%;
+				background-color: #ffffff;
+				overflow: hidden;
+			}
+
+			.demo-overlay {
+				position: absolute;
+				display: none; /* cheap hack because positioning happens a split second after inital display */
+				top: calc(10% - 20px);
+				bottom: calc(10% - 20px);
+				left: 10%;
+				right: 10%;
+				background-color: rgba(0, 0, 0, 0.7);
+				font-size: 200%;
+				border: none;
+				margin: 40px 0 0 0;
+				padding: 0;
+				color: #ffffff;
+				border-radius: 0;
+			}
+
+			.closeDemo {
+				display: none;
+				position: fixed;
+				right: 20px;
+				bottom: 20px;
+			}
+
+		</style>
+
+		<div id="header" class="container layout horizontal flex center justified">
+			<div class="container layout horizontal"><p class="think">IBM</p>
+				<p class="forum">NV Demo</p></div>
+			<paper-tabs id="nav" selected=0>
+				<paper-tab link>
+					<a href="#intro-section" class="link layout horizontal flex center center-justified" tabindex="-1">
+						<div>Intro</div>
+					</a>
+				</paper-tab>
+				<paper-tab link>
+					<a href="#history-section" class="link layout horizontal flex center center-justified" tabindex="-1">
+						<div>History</div>
+					</a>
+				</paper-tab>
+				<paper-tab link>
+					<a href="#issues-section" class="link layout horizontal flex center center-justified" tabindex="-1">
+						<div>Issues</div>
+					</a>
+				</paper-tab>
+				<paper-tab link>
+					<a href="#solution-section" class="link layout horizontal flex center center-justified" tabindex="-1">
+						<div>Solution</div>
+					</a>
+				</paper-tab>
+				<paper-tab link>
+					<a href="#demo-section" class="link layout horizontal flex center center-justified" tabindex="-1">
+						<div>Demo</div>
+					</a>
+				</paper-tab>
+				<paper-tab link>
+					<a href="#future-section" class="link layout horizontal flex center center-justified" tabindex="-1">
+						<div>Future</div>
+					</a>
+				</paper-tab>
+			</paper-tabs>
+		</div>
+
+		<section id="intro-section">
+			<div class="img bg1 container layout vertical flex center center-justified">
+				<!-- Place content inside the above div tag for each section, as follows: -->
+				<h1>Nostro-Vostro on IBM Blockchain</h1>
+				<h3>Welcome to the future of correspondent banking</h3>
+			</div>
+		</section>
+
+		<div class="padding"></div>
+
+		<section id="history-section">
+			<div class="img bg2 container layout vertical flex center center-justified">
+				<h1>Placeholder</h1>
+				<h1>Some Heading</h1>
+				<ul>
+					<li>Point 1</li>
+					<li>Point B</li>
+					<li>Point III</li>
+					<li>.... (<- four points)</li>
+				</ul>
+			</div>
+		</section>
+
+		<div class="padding"></div>
+		<div class="padding"></div>
+
+		<section id="issues-section">
+			<div class="img bg3 container layout vertical flex center center-justified">
+				<h1>Placeholder</h1>
+			</div>
+		</section>
+
+		<div class="padding"></div>
+		<div class="padding"></div>
+
+		<section id="solution-section">
+			<div class="img bg4 container layout vertical flex center center-justified">
+				<h1>Placeholder</h1>
+			</div>
+		</section>
+
+		<div class="padding"></div>
+		<div class="padding"></div>
+
+		<section id="demo-section">
+			<div class="img bg5 container layout vertical flex center center-justified">
+				<div id="nv-demo" class="demo">
+					<demo-page></demo-page>
+					<paper-button class="demo-overlay" noink on-tap="beginDemo">Click to begin demo</paper-button>
+					<paper-button class="closeDemo" raised on-tap="closeDemo">Close Demo</paper-button>
+				</div>
+			</div>
+		</section>
+
+		<div class="padding"></div>
+		<div class="padding"></div>
+
+		<section id="future-section">
+			<div class="img bg6 container layout vertical flex center center-justified">
+				<h1>Placeholder</h1>
+			</div>
+		</section>
+
+		<div class="padding"></div>
+		<div class="padding"></div>
+
+		<div id="history-heading" class="heading layout vertical flex center-justified" data-transition-from="intro-section"
+		     data-transition-to="history-section">
+			<div class="heading-panel blue left-pivot"></div>
+			<div id="history-heading-content" class="heading-content">
+				<!-- Place content inside the above div for it to appear in a coloured panel. Preferably just a title, as below -->
+				<div class="title layout vertical center">The History of Correspondent Banking</div>
+			</div>
+		</div>
+
+		<div id="issues-heading" class="heading layout vertical flex center-justified"
+		     data-transition-from="history-section"
+		     data-transition-to="issues-section">
+			<div class="heading-panel purple right-pivot">
+			</div>
+			<div id="issues-heading-content" class="heading-content">
+				<div class="title layout vertical center">Issues in the Current Model</div>
+			</div>
+		</div>
+
+		<div id="solution-heading" class="heading layout vertical flex center-justified"
+		     data-transition-from="issues-section"
+		     data-transition-to="solution-section">
+			<div class="heading-panel red left-pivot">
+			</div>
+			<div id="solution-heading-content" class="heading-content">
+				<div class="title layout vertical center">How Blockchain Can Help</div>
+			</div>
+		</div>
+
+		<div id="demo-heading" class="heading layout vertical flex center-justified" data-transition-from="solution-section"
+		     data-transition-to="demo-section">
+			<div class="heading-panel orange right-pivot">
+			</div>
+			<div id="demo-heading-content" class="heading-content">
+				<div class="title layout vertical center">Time For a Demonstration</div>
+			</div>
+		</div>
+
+		<div id="future-heading" class="heading layout vertical flex center-justified" data-transition-from="demo-section"
+		     data-transition-to="future-section">
+			<div class="heading-panel yellow left-pivot">
+			</div>
+			<div id="future-heading-content" class="heading-content">
+				<div class="title layout vertical center">Looking to the Future</div>
+			</div>
+		</div>
+
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'home-page',
+
+			properties: {
+				prop1: {
+					type: String,
+					value: 'home-page',
+				},
+			},
+
+			ready: function() {
+				var self = this;
+
+				window.addEventListener("load", function() {
+					setTimeout(function() {
+						// show the demo overlay, now that it's had time to position properly
+						self.querySelector(".demo-overlay").style.display = "flex";
+
+						// create the controller for managing scroll transitions
+						var controller = new ScrollMagic.Controller({
+							globalSceneOptions: {
+								triggerHook: 'onLeave'
+							}
+						});
+
+						// animate scrolling
+						var autoScrolling = false; // used to prevent nav bar behaving erratically during auto-scrolling
+						controller.scrollTo(function(target) {
+							autoScrolling = true;
+							new TweenMax.to(window, 0.5, {
+								scrollTo: {
+									y: target,
+									autoKill: true,
+									onAutoKill: function() {
+										autoScrolling = false;
+									},
+								},
+								onComplete: function() {
+									autoScrolling = false;
+								},
+								ease: Cubic.easeInOut
+							});
+						});
+
+						// bind scroll to anchor links
+						var anchorLinks = self.querySelectorAll("a[href^=\"#\"]");
+						for (var i = 0; i < anchorLinks.length; i++) {
+							anchorLinks[i].addEventListener("click", function(e) {
+								var id = e.target.getAttribute("href");
+								e.preventDefault();
+
+								if (id !== null && id.length > 0) {
+									controller.scrollTo(id);
+									/*
+									 if (window.history && window.history.pushState) {
+									 history.pushState("", document.title, id);
+									 }
+									 */
+								}
+							})
+						}
+
+						// register a listener to the scroll event to update the nav bar when users reach new sections
+						var navTabs = self.querySelectorAll("paper-tab");
+						window.addEventListener("scroll", function() {
+							if (!autoScrolling) {
+								for (i = navTabs.length - 1; i >= 0; i--) {
+									var targetRect = self.querySelector(navTabs[i].querySelector("a[href^=\"#\"]").getAttribute("href")).getBoundingClientRect();
+
+									if (targetRect.bottom >= 0 && targetRect.top <= document.documentElement.clientHeight) {
+										self.$.nav.selected = i;
+										break;
+									}
+								}
+							}
+						})
+						;
+
+						// use the height of the screen as a guide for how big header panels should be
+						var docHeight = document.documentElement.clientHeight;
+						var docWidth = document.documentElement.clientWidth;
+						var panelHeight = docHeight * 1.75;
+						// extra height added by skewing the panel
+						var rotVal = 15;
+						var skewHeight = docWidth * Math.tan((rotVal / 180) * Math.PI);
+						// panel is skewed by 15 deg in both directions, so it's total height is
+						// 2 * skewHeight + height at 0 skew
+						var containerHeight = 2 * skewHeight + panelHeight;
+
+						// for each heading
+						var headings = self.querySelectorAll("home-page > .heading");
+						for (i = 0; i < headings.length; i++) {
+
+							console.log("ContainerHeight: " + containerHeight + ", PanelHeight: " + panelHeight);
+
+							// set the height of the container to accommodate the panel at all values
+							headings[i].style.height = containerHeight + "px";
+
+							// set the height of the panel to be enough to cover the transition
+							var panel = headings[i].querySelector(".heading-panel");
+							panel.style.height = panelHeight + "px";
+
+							// set the position of the heading to cover its target
+							var transitionTo = self.querySelector("#" + headings[i].getAttribute("data-transition-to"));
+							var transitionFrom = self.querySelector("#" + headings[i].getAttribute("data-transition-from"));
+							var y = transitionTo.getBoundingClientRect().top + window.pageYOffset;
+							headings[i].style.top = (y - 2 * skewHeight) + "px";
+
+							// set the position and height of the contents of the panel
+							var content = headings[i].querySelector(".heading-content");
+							// content.style.height = panelHeight - 2 * skewHeight + "px";
+							content.style.top = 2 * skewHeight + "px";
+							content.style.bottom = 2 * skewHeight + "px";
+
+							// pin the title and animate it
+							var contentScene = new ScrollMagic.Scene({
+								triggerElement: content,
+								duration: content.clientHeight
+							})
+											.setPin(content.querySelector(".title"))
+											// .addIndicators()
+											.addTo(controller);
+
+							contentScene.triggerHook("onCenter");
+
+							var timeline = new TimelineMax();
+							timeline.to("#" + headings[i].id + " .heading-content .title", 0.22, { opacity: 1 }, 0);
+							timeline.to("#" + headings[i].id + " .heading-content .title", 0.22, { opacity: 0 }, 0.78);
+
+							contentScene = new ScrollMagic.Scene({
+								triggerElement: content,
+								offset: -0.4 * content.clientHeight,
+								duration: 2 * content.clientHeight
+							})
+											.setTween(timeline)
+											// .addIndicators()
+											.addTo(controller);
+
+							contentScene.triggerHook("onCenter");
+
+							// create timeline to manage tweens
+							var timeline = new TimelineMax();
+
+							// skew panel
+							var rotDir = /\bleft-pivot\b/.test(panel.className) ? -1 : 1;
+							timeline.to("#" + headings[i].id + " .heading-panel", 1, { transform: "skewY(" + (rotDir * rotVal) + "deg)" }, 0);
+
+							// fade out from
+							timeline.fromTo("#" + transitionFrom.id + "> .img", 0.4, { opacity: 1 }, { opacity: 0.25 }, 0);
+
+							// fade in to
+							timeline.fromTo("#" + transitionTo.id + "> .img", 0.4, { opacity: 0.25 }, { opacity: 1 }, 0.6);
+
+							// create scenes to rotate the heading panels
+							var headingScene = new ScrollMagic.Scene({
+								triggerElement: headings[i], // trigger on the heading
+								offset: skewHeight, // offset by the skew height, as the panel is not at the start of the heading
+								duration: panelHeight + docHeight // duration is the height of the panel, plus a full screen height, so that the animation ends when the panel is just off screen
+							})
+											.setTween(timeline)
+											// .addIndicators()
+											.addTo(controller);
+
+							headingScene.triggerHook("onEnter");
+						}
+
+						// for each section
+						var sections = self.querySelectorAll("section");
+						for (i = 0; i < sections.length; i++) {
+							// create a scene to pin the section permanently
+							new ScrollMagic.Scene({
+								triggerElement: sections[i] // trigger at the start of the section
+							})
+											.setPin(sections[i]) // pin the section forever
+											.addTo(controller);
+						}
+					}, 100);
+				});
+			},
+
+			beginDemo: function() {
+				var timeline = new TimelineMax();
+				var demo = this.querySelector("#nv-demo");
+				var animTime = 0.5;
+
+				// scroll to correct position and lock scrolling
+				var demoHeadingPanel = this.querySelector("#demo-heading > .heading-panel");
+				var y = demoHeadingPanel.getBoundingClientRect().bottom + window.pageYOffset + 40;
+
+				timeline.to(window, animTime, {
+					scrollTo: { y: y, autoKill: false }, onComplete: function() {
+						console.log("Prevent scrolling here");
+					}, ease: Cubic.easeInOut
+				}, 0);
+
+				// expand demo to fullscreen
+				var height = document.documentElement.clientHeight;
+				timeline.to(demo, animTime, {
+					width: "100%",
+					height: height + "px",
+					ease: Cubic.easeInOut
+				}, 0);
+
+				// fade out background under header
+				timeline.to(this.$.header, animTime, { backgroundColor: "rgba(0, 0, 0, 1)", ease: Cubic.easeInOut }, 0);
+
+				// fade out overlay and hide it
+				var overlay = demo.querySelector(".demo-overlay");
+				overlay.disabled = true;
+				timeline.to(overlay, animTime, {
+					top: "0",
+					bottom: "0",
+					left: "0",
+					right: "0",
+					opacity: 0,
+					onComplete: function() {
+						overlay.style.display = "none";
+					},
+					ease: Cubic.easeInOut
+				}, 0);
+
+				// enable close button
+				var close = demo.querySelector(".closeDemo");
+				close.style.display = "initial";
+				timeline.fromTo(close, animTime, { bottom: -1 * close.clientHeight + "px" }, {
+					bottom: "20px",
+					ease: Cubic.easeInOut
+				}, 0);
+
+				// send start message to demo element
+
+				timeline.play();
+			},
+
+			closeDemo: function() {
+				var timeline = new TimelineMax();
+				var demo = this.querySelector("#nv-demo");
+				var animTime = 0.5;
+
+				// enable scrolling
+				console.log("Eanble scrolling here");
+
+				// contract demo to initial values
+				var height = document.documentElement.clientHeight * 0.8;
+				// console.log(height);
+				timeline.to(demo, animTime, { width: "80%", height: height + "px", ease: Cubic.easeInOut }, 0);
+
+				// fade in background under header
+				timeline.to(this.$.header, animTime, { backgroundColor: "rgba(0, 0, 0, 0.7)", ease: Cubic.easeInOut }, 0);
+
+				// show overlay and fade it in
+				var overlay = demo.querySelector(".demo-overlay");
+				overlay.style.display = "flex";
+				var topBot = (document.documentElement.clientHeight * 0.1 - 20);
+				timeline.to(overlay, animTime, {
+					top: topBot + "px",
+					bottom: topBot + "px",
+					left: "10%",
+					right: "10%",
+					opacity: 1,
+					onComplete: function() {
+						overlay.disabled = false;
+					},
+					ease: Cubic.easeInOut
+				}, 0);
+
+				// disable close button
+				var close = demo.querySelector(".closeDemo");
+				timeline.to(close, animTime, {
+					bottom: -1 * close.clientHeight + "px", onComplete: function() {
+						close.style.display = "none";
+					}, ease: Cubic.easeInOut
+				}, 0);
+
+				timeline.play();
+			}
+		});
+	</script>
+</dom-module>

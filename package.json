@@ -1,0 +1,31 @@
+{
+  "name": "ibm-kad-dory",
+  "version": "0.0.1",
+  "description": "IBM Kad Dory Presentation",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:IBM-Blockchain/nostro-vostro.git"
+  },
+  "keywords": [
+    "IBM",
+    "Dory",
+    "Presentation"
+  ],
+  "author": "IBM Research - Australia",
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "log4js": "^0.6.35",
+    "minimist": "^1.2.0",
+    "node-uuid": "^1.4.7",
+    "restify": "^4.0.4",
+    "cfenv": "1.0.x"
+  },
+  "license": "SEE LICENSE IN  LICENSE"
+}
